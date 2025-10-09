@@ -1,0 +1,36 @@
+# Build folders
+bin/
+obj/
+out/
+dist/
+build/
+
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Logs
+*.log
+
+# React / Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Environment
+.env
+*.db
+*.sqlite
+*.sqlite3
+
+# Others
+__pycache__/
+*.pdb
+*.dll
+*.exe
+.DS_Store
+Thumbs.db
