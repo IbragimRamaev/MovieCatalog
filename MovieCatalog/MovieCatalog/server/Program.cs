@@ -27,7 +27,6 @@ builder.Services.AddCors(option =>
         .AllowAnyMethod());
 });
 
-
 var app = builder.Build();
 
 // Enables Swagger only in Development mode
