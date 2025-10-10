@@ -1,44 +1,50 @@
-﻿using MovieCatalog.server.Services.Extensions;  // Imports our extension for services (we’ll create it soon)
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
+using MovieCatalog.server.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Registers all controllers
+// 1️⃣ Add controllers (they handle API routes)
 builder.Services.AddControllers();
 
-// Add Swagger for Api documantation and testing
+// 2️⃣ Add Swagger for documentation and testing
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "MoviCatalog",
+        Title = "MovieCatalog API",
         Version = "v1",
-        Description = "Backend API for MovieCatalog project"
+        Description = "Backend API for the MovieCatalog project"
     });
 });
 
-//Enables CORS so React frontend can call our API
-builder.Services.AddCors(option =>
+// 3️⃣ Configure CORS (Cross-Origin Resource Sharing) for React app
+builder.Services.AddCors(options =>
 {
-    option.AddPolicy("AllowReactApp",
-        policy => policy.WithOrigins("http://localhost:3000")
-        .AllowAnyHeader()
-        .AllowAnyMethod());
+    options.AddPolicy("AllowReactApp", policy =>
+        policy.WithOrigins("http://localhost:3000") // React runs here
+              .AllowAnyHeader()
+              .AllowAnyMethod());
 });
+
+// 4️⃣ Register services and database (we created this in ServiceCollectionExtensions)
+builder.Services.AddAppServices(builder.Configuration);
 
 var app = builder.Build();
 
-// Enables Swagger only in Development mode
+// 5️⃣ Enable Swagger only in Development mode
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Middleware pipeline (HTTP request handling order)
-app.UseHttpsRedirection();   // Redirects all HTTP → HTTPS
-app.UseCors("AllowReactApp"); // Enables CORS for React frontend
-app.UseAuthorization();       // Authorization middleware (we’ll use later)
-app.MapControllers();         // Maps API endpoints to controllers
-app.Run();                    // Starts the application
+// 6️⃣ HTTP request pipeline configuration
+app.UseHttpsRedirection();   // redirects HTTP → HTTPS
+app.UseCors("AllowReactApp"); // enables CORS policy
+app.UseAuthorization();       // placeholder for auth logic (later)
+app.MapControllers();         // maps routes to controllers
+
+// 7️⃣ Start the server
+app.Run();
