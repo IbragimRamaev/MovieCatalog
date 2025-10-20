@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using server.Data;
+using server.Services;
 
 namespace MovieCatalog.server.Services
 {
@@ -15,6 +16,9 @@ namespace MovieCatalog.server.Services
 
             // Register Movie API Service
             services.AddHttpClient<MovieApiService>();
+
+            services.AddScoped<FavoriteService>();
+
 
             return services;
         }
