@@ -1,5 +1,9 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using MovieCatalog.server.Services;
+using server.Data;
+
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,8 +32,9 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 
-// 4️⃣ Register services and database (we created this in ServiceCollectionExtensions)
-builder.Services.AddAppServices(builder.Configuration);
+// 4️⃣ Register services and database
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -41,10 +46,10 @@ if (app.Environment.IsDevelopment())
 }
 
 // 6️⃣ HTTP request pipeline configuration
-app.UseHttpsRedirection();   // redirects HTTP → HTTPS
-app.UseCors("AllowReactApp"); // enables CORS policy
-app.UseAuthorization();       // placeholder for auth logic (later)
-app.MapControllers();         // maps routes to controllers
+app.UseHttpsRedirection();
+app.UseCors("AllowReactApp");
+app.UseAuthorization();
+app.MapControllers();
 
 // 7️⃣ Start the server
 app.Run();
