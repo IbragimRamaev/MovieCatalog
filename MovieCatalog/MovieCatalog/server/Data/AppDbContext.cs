@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieCatalog.server.Models;
 using server.Models;
 
 namespace server.Data
@@ -9,6 +10,7 @@ namespace server.Data
             : base(options)
         {
         }
+        public DbSet<Movie> Movies { get; set; }
 
         public DbSet<Favorite> Favorites { get; set; } = null!;
     }
