@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovieCatalog.server.Services;
+using server.Services;
 
-namespace MovieCatalog.server.Controllers
+namespace server.Controllers
 {
     public class MoviesController: ControllerBase
     {

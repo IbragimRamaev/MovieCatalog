@@ -1,11 +1,7 @@
-﻿using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using MovieCatalog.server.Models;
+﻿using server.Models;
 
 
-namespace MovieCatalog.server.Services
+namespace server.Services
 {
     public class MovieApiService
     {

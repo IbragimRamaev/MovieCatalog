@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieCatalog.server.Models;
 using server.Models;
 
 namespace server.Data

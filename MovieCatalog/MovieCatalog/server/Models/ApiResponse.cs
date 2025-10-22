@@ -1,4 +1,4 @@
-﻿namespace MovieCatalog.server.Models
+﻿namespace server.Models
 {
     public class ApiResponse
     {

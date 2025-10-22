@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Services;
 
-namespace MovieCatalog.server.Services
+namespace server.Services.Extensions
 {
     public static class ServiceCollectionExtensions
     {

@@ -5,9 +5,11 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<InvariantGlobalization>false</InvariantGlobalization>
-	</PropertyGroup>
+	  <UserSecretsId>3a21febd-b601-4fdf-a509-8810036e91f1</UserSecretsId>
+  </PropertyGroup>
 
 	<ItemGroup>
+		<None Include="Properties\launchSettings.json" />
 		<!-- Swagger (API documentation) -->
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />

@@ -16,9 +16,17 @@ namespace server.Services
         // Add a new favorite
         public async Task<Favorite> AddFavoriteAsync(Favorite favorite)
         {
-            _context.Favorites.Add(favorite);
-            await _context.SaveChangesAsync();
-            return favorite;
+            try
+            {
+                _context.Favorites.Add(favorite);
+                await _context.SaveChangesAsync();
+                return favorite;
+            }
+            catch (Exception ex)
+            { 
+                Console.WriteLine($"SaveChanges failed: {ex.Message}");
+                throw;
+            }
         }
 
         // Get all favorites

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using server.Models;
 using server.Services;
+using server.Models;
 
 namespace server.Controllers
 {
@@ -16,30 +16,24 @@ namespace server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetFavorites()
         {
-            var list = await _favoriteService.GetAllFavoritesAsync();
-            return Ok(list);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] Favorite favorite)
-        {
-            var exists = await _favoriteService.IsFavoriteAsync(favorite.MovieId);
-            if (exists)
-                return Conflict("This movie is already in favorites.");
-
-            var result = await _favoriteService.AddFavoriteAsync(favorite);
+            var result = await _favoriteService.GetAllFavoritesAsync();
             return Ok(result);
         }
 
-        [HttpDelete("{movieId}")]
-        public async Task<IActionResult> Remove(int movieId)
+        [HttpPost]
+        public async Task<IActionResult> AddFavorite([FromBody] Favorite favorite)
         {
-            var success = await _favoriteService.RemoveFavoriteAsync(movieId);
-            if (!success)
-                return NotFound();
+            await _favoriteService.AddFavoriteAsync(favorite);
+            return Ok(favorite);
+        }
 
+        [HttpDelete("{movieId}")]
+        public async Task<IActionResult> DeleteFavorite(int movieId)
+        {
+            var deleted = await _favoriteService.RemoveFavoriteAsync(movieId);
+            if (!deleted) return NotFound();
             return NoContent();
         }
     }
