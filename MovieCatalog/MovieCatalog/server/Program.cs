@@ -13,6 +13,7 @@ builder.Services.AddScoped<MovieApiService>();
 builder.Services.AddScoped<FavoriteService>();
 builder.Services.AddControllers();
 
+
 // Add Swagger for documentation and testing
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

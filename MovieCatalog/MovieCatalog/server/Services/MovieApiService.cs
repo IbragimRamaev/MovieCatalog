@@ -13,6 +13,7 @@ namespace server.Services
         {
             _httpClient = httpClient;
             _apiKey = configuration["TMDB:ApiKey"];
+
         }
 
 
