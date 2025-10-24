@@ -1,32 +1,54 @@
-﻿// src/pages/Home.jsx
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
+import { Container, Grid, Typography } from "@mui/material";
 import SearchBar from "../components/SearchBar";
 import MovieCard from "../components/MovieCard";
-import { searchMovies } from "../api/movieApi";
+import { searchMovies, addFavorite } from "../api/movieApi";
 
-const Home = () => {
+export default function Home() {
     const [movies, setMovies] = useState([]);
 
     const handleSearch = async (query) => {
         try {
             const data = await searchMovies(query);
-            setMovies(data.results || []);
+            setMovies(data?.results || []);
         } catch (error) {
-            console.error("Error fetching movies:", error);
+            console.error("Search error:", error);
         }
     };
 
+    const handleAddFavorite = async (movie) => {
+        await addFavorite({
+            movieId: movie.id,
+            title: movie.title,
+            posterPath: movie.poster_path,
+            overview: movie.overview,
+            releaseDate: movie.release_date,
+        });
+    };
+
     return (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
+        <Container sx={{ mt: 5 }}>
+            <Typography variant="h4" align="center" gutterBottom>
+                🎬 Movie Catalog
+            </Typography>
+
             <SearchBar onSearch={handleSearch} />
 
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", marginTop: "20px" }}>
-                {movies.map((movie) => (
-                    <MovieCard key={movie.id} movie={movie} />
-                ))}
-            </div>
-        </div>
-    );
-};
 
-export default Home;
+            <Grid container spacing={3} justifyContent="center" sx={{ mt: 3 }}>
+
+                {movies.map((movie) => (
+                    <Grid
+                        item
+                        key={movie.id}
+                        xs={12} sm={6} md={3}
+                        sx={{ display: "flex", justifyContent: "center" }}
+                    >
+                        <MovieCard movie={movie} onAddFavorite={handleAddFavorite} />
+                    </Grid>
+                ))}
+            </Grid>
+
+        </Container>
+    );
+}

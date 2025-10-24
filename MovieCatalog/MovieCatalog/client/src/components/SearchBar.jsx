@@ -1,43 +1,32 @@
-﻿// src/components/SearchBar.jsx
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
+import { TextField, Button, Box } from "@mui/material";
 
-const SearchBar = ({ onSearch }) => {
+export default function SearchBar({ onSearch }) {
     const [query, setQuery] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSearch(query);
+        if (query.trim()) {
+            onSearch(query);
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ display: "flex", gap: "10px" }}>
-            <input
-                type="text"
-                placeholder="Search movies..."
+        <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{ display: "flex", justifyContent: "center", mt: 3, gap: 2 }}
+        >
+            <TextField
+                label="Search Movies..."
+                variant="outlined"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                style={{
-                    padding: "10px",
-                    borderRadius: "10px",
-                    border: "1px solid #ccc",
-                    width: "300px",
-                }}
+                sx={{ width: "60%" }}
             />
-            <button
-                type="submit"
-                style={{
-                    backgroundColor: "#007bff",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "10px 20px",
-                    cursor: "pointer",
-                }}
-            >
+            <Button type="submit" variant="contained" color="primary">
                 Search
-            </button>
-        </form>
+            </Button>
+        </Box>
     );
-};
-
-export default SearchBar;
+}

@@ -1,61 +1,92 @@
-﻿// src/components/MovieCard.jsx
-import React from "react";
-import { addFavorite } from "../api/movieApi";
+﻿import React from "react";
+import {
+    Card,
+    CardMedia,
+    CardContent,
+    Typography,
+    Button,
+} from "@mui/material";
 
-const MovieCard = ({ movie }) => {
-    const posterUrl = movie.poster_path
-        ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-        : "https://via.placeholder.com/200x300?text=No+Image";
-
-    const handleAddFavorite = async () => {
-        try {
-            const favorite = {
-                movieId: movie.id,
-                title: movie.title,
-                posterPath: movie.poster_path,
-                overview: movie.overview,
-                releaseDate: movie.release_date,
-            };
-
-            await addFavorite(favorite);
-            alert(`"${movie.title}" added to favorites!`);
-        } catch (error) {
-            console.error("Error adding favorite:", error);
-            alert("❌ Failed to add to favorites");
-        }
-    };
-
+export default function MovieCard({ movie, onAddFavorite }) {
     return (
-        <div
-            style={{
-                width: "200px",
-                margin: "10px",
-                borderRadius: "10px",
-                boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+        <Card
+            sx={{
+                width: 220,
+                height: 340, // ✅ чуть меньше, чем было
+                borderRadius: 2,
+                boxShadow: 3,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
                 overflow: "hidden",
-                textAlign: "center",
+                transition: "transform 0.25s ease, box-shadow 0.25s ease",
+                "&:hover": {
+                    transform: "scale(1.03)",
+                    boxShadow: 6,
+                },
             }}
         >
-            <img src={posterUrl} alt={movie.title} style={{ width: "100%" }} />
-            <h4 style={{ padding: "10px" }}>{movie.title}</h4>
-            <p style={{ fontSize: "12px", padding: "0 10px" }}>{movie.release_date}</p>
+            {/* ✅ Изображение теперь лучше вписывается */}
+            <CardMedia
+                component="img"
+                image={
+                    movie.poster_path ||
+                        movie.posterPath ||
+                        movie.poster_Path
+                        ? `https://image.tmdb.org/t/p/w342${movie.poster_path || movie.posterPath || movie.poster_Path
+                        }`
+                        : "https://via.placeholder.com/220x260?text=No+Image"
+                }
+                alt={movie.title}
+                sx={{
+                    height: 240,          // ✅ меньше, чтобы вписывалось идеально
+                    objectFit: "contain", // ✅ сохраняет пропорции, без обрезки
+                    backgroundColor: "#f8f8f8",
+                }}
+            />
 
-            {/* кнопка добавления в избранное */}
-            <button
-                onClick={handleAddFavorite}
-                style={{
-                    backgroundColor: "#ffcc00",
-                    border: "none",
-                    padding: "8px 12px",
-                    borderRadius: "5px",
-                    marginBottom: "10px",
-                    cursor: "pointer",
+            {/* ✅ Контент */}
+            <CardContent
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    flexGrow: 1,
+                    p: 1.5,
                 }}
             >
-                ⭐ Add to Favorites
-            </button>
-        </div>
-    );
-};
+                {/* ✅ Название — только одна строка */}
+                <Typography
+                    variant="subtitle1"
+                    sx={{
+                        textAlign: "center",
+                        fontWeight: "bold",
+                        mb: 1,
+                        whiteSpace: "nowrap",       // ❗ только одна строка
+                        overflow: "hidden",         // ❗ скрывает остальное
+                        textOverflow: "ellipsis",   // ❗ добавляет "..."
+                        width: "100%",
+                    }}
+                >
+                    {movie.title}
+                </Typography>
 
-export default MovieCard;
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    size="small"
+                    sx={{
+                        fontSize: "0.7rem",
+                        padding: "3px 8px",
+                        textTransform: "uppercase",
+                        borderRadius: "8px",
+                    }}
+                    onClick={() => onAddFavorite(movie)}
+                >
+                    Add to Favorites
+                </Button>
+            </CardContent>
+        </Card>
+    );
+}
