@@ -1,4 +1,5 @@
 ﻿import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
     Card,
     CardMedia,
@@ -8,8 +9,14 @@ import {
 } from "@mui/material";
 
 export default function MovieCard({ movie, onAddFavorite }) {
+
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate(`/movie/${movie.id}`);
+    };
     return (
         <Card
+            onClick={handleClick}
             sx={{
                 width: 220,
                 height: 340, // ✅ чуть меньше, чем было
@@ -82,7 +89,7 @@ export default function MovieCard({ movie, onAddFavorite }) {
                         textTransform: "uppercase",
                         borderRadius: "8px",
                     }}
-                    onClick={() => onAddFavorite(movie)}
+                    onClick={(e) => { e.stopPropagation(); onAddFavorite(movie); }}
                 >
                     Add to Favorites
                 </Button>

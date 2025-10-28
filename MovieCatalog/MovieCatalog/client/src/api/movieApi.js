@@ -38,3 +38,13 @@ export const deleteFavorite = async (id) => {
     const response = await axios.delete(`${API_BASE_URL}/favorites/${id}`);
     return response.data;
 };
+
+export const getMovieDetails = async (id) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/movies/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching movie details:", error);
+        throw error;
+    }
+};
